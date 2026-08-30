@@ -13,17 +13,27 @@ A cache for `MafOptions` using a SingletonDictionary with support for keyed asyn
 dotnet add package Soenneker.Maf.Cache.Options
 ```
 
-## Quick start
+## Usage
 
 ```csharp
-using Soenneker.Maf.Cache.Options.Registrars;
 using Microsoft.Extensions.DependencyInjection;
+using Soenneker.Maf.Cache.Options.Abstract;
+using Soenneker.Maf.Cache.Options.Registrars;
+using Soenneker.Maf.Dtos.Options;
 
-var services = new ServiceCollection();
-var result = services.AddMafOptionsCacheAsSingleton();
+services.AddMafOptionsCacheAsSingleton();
+
+IMafOptionsCache cache = serviceProvider.GetRequiredService<IMafOptionsCache>();
+
+MafOptions options = await cache.Get("primary", static () =>
+    ValueTask.FromResult(new MafOptions
+    {
+        ModelId = "my-model",
+        RequestsPerMinute = 60
+    }));
 ```
 
-Adds `IMafOptionsCache` as a singleton service.
+The factory runs once for a given key while that entry remains cached. Remove the entry before supplying a replacement factory for the same key.
 
 ## What you get
 
@@ -43,6 +53,6 @@ Adds `IMafOptionsCache` as a singleton service.
 
 ## Practical notes
 
-- Cancellation stops pending work; it does not undo work that has already completed.
-- Calls that return a cached or singleton value reuse the same instance until the owning service is disposed.
-- Dispose instances you own when their scope ends so held resources can be released.
+- Use singleton registration to share option objects across scopes, or `AddMafOptionsCacheAsScoped()` to isolate the cache per scope.
+- The cache returns the same mutable `MafOptions` instance for a key; coordinate mutations or treat cached values as immutable.
+- Disposing the cache releases its backing singleton dictionary.

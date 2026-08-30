@@ -8,7 +8,6 @@ using Soenneker.Maf.Dtos.Options;
 
 namespace Soenneker.Maf.Cache.Options;
 
-/// <inheritdoc cref="IMafOptionsCache"/>
 public sealed class MafOptionsCache : IMafOptionsCache
 {
     private readonly SingletonDictionary<MafOptions, Func<ValueTask<MafOptions>>> _options;
