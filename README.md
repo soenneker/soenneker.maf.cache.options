@@ -38,7 +38,7 @@ The factory runs once for a given key while that entry remains cached. Remove th
 ## What you get
 
 - `IMafOptionsCache` — A cache for `MafOptions` using a SingletonDictionary with support for keyed asynchronous creation.
-- `MafOptionsCacheRegistrar` — Providing async thread-safe singleton Microsoft Agent Framework Options instances.
+- `MafOptionsCacheRegistrar` — Registers `IMafOptionsCache` as a singleton or scoped service.
 
 ## API at a glance
 

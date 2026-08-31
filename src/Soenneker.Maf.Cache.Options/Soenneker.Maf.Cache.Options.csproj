@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <Description>Providing async thread-safe singleton Microsoft Agent Framework Options instances.</Description>
+        <Description>Caches MafOptions by key with asynchronous single-creation semantics.</Description>
         <Version Condition="'$(BUILD_VERSION)' == ''">4.0.0</Version>
         <Version Condition="'$(BUILD_VERSION)' != ''">$(BUILD_VERSION)</Version>
         <AssemblyName>Soenneker.Maf.Cache.Options</AssemblyName>
